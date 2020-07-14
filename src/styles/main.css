@@ -1,0 +1,19 @@
+@import "./material-design.css";
+@import url("https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&family=Merienda+One&display=swap");
+
+.title-league{
+    margin: 0;
+    position: absolute;
+    color: azure;
+    font-family: 'Merienda One', cursive;
+    top: 50%;
+    text-align: center;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#card-banner{
+    margin: 16px;
+    position: relative;
+    border-radius: 20px;
+}
