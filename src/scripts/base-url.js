@@ -1,5 +1,6 @@
 const baseUrl = {
-    url_lottie_football: "https://assets7.lottiefiles.com/packages/lf20_dSdZzy.json"
+    main_url: "https://api.football-data.org/v2/",
+    url_lottie_football: "../assets/19901-football.json"
 }
 
 export default baseUrl;

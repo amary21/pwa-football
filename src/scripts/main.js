@@ -1,6 +1,10 @@
 import item from "./item.js";
+import service from "./service.js";
 
 function main() {
+
+    let page = window.location.hash.substr(1);
+    if (page == "") page = "home";
     
     function loadNav(){
         const xhttp = new XMLHttpRequest();
@@ -34,8 +38,8 @@ function main() {
             if(this.readyState == 4){
                 let content = document.querySelector("#body-content");
                 if(this.status === 200){
-                    content.innerHTML = xhttp.responseText;
-                    item();
+                    content.innerHTML = xhttp.responseText; 
+                    item(page);
                 } else if (this.status === 404){
 
                     content.innerHTML = "<p>Halaman tidak ditemukan.</p>";
@@ -53,10 +57,13 @@ function main() {
         M.Sidenav.init(elems);
         loadNav();
 
-        let page = window.location.hash.substr(1);
-        if (page == "") page = "home";
+        const modal = document.querySelectorAll('.modal');
+        M.Modal.init(modal);
+        console.log(modal);
+
         loadPage(page);
 
+        service();
     });
 }
 

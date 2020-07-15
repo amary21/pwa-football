@@ -1,19 +1,53 @@
 @import "./material-design.css";
-@import url("https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&family=Merienda+One&display=swap");
 
 .title-league{
     margin: 0;
-    position: absolute;
-    color: azure;
-    font-family: 'Merienda One', cursive;
-    top: 50%;
-    text-align: center;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    position: static;
 }
 
-#card-banner{
-    margin: 16px;
-    position: relative;
+.title-league h2{
+    color: azure;
+    font-family: 'Merienda One', cursive;
+    text-align: center;
+    margin-top: 32px;
+    margin-right: 16px;
+}
+
+.hide-on-large-only a{
+    margin-top: 32px;
+    margin-right: 16px;
+}
+
+.card{
     border-radius: 20px;
+}
+
+.match-item{
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 16px;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: darkred;
+}
+
+.match-item .match-team{
+    color: #2c3e50;
+}
+
+.match-item .score-team{
+    color: #16a085;
+}
+
+#body-standings{
+    padding: 16px;
+}
+
+.img-team img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
 }

@@ -10,6 +10,22 @@
       url("/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf") format('truetype');
   }
 
+@font-face {
+    font-family: 'Merienda One';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Merienda One'),
+        url("/assets/MeriendaOne-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'),
+      url("/assets/Roboto-Medium.ttf") format('truetype');
+}
+
   .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
