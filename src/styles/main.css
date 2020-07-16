@@ -42,12 +42,22 @@
 }
 
 #body-standings{
-    padding: 16px;
+    margin-top: 16px;
+    padding: 8px;
 }
 
 .img-team img{
     margin-left: auto;
     margin-right: auto;
+    padding: 16px;
     display: block;
     width: 100%;
+}
+
+.item-detail {
+    padding-left: 32px;
+}
+
+.item-detail h6{
+    padding: 14px;
 }

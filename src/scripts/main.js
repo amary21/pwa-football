@@ -56,11 +56,7 @@ function main() {
         const elems = document.querySelectorAll(".sidenav");
         M.Sidenav.init(elems);
         loadNav();
-
-        const modal = document.querySelectorAll('.modal');
-        M.Modal.init(modal);
-        console.log(modal);
-
+        
         loadPage(page);
 
         service();

@@ -48,6 +48,26 @@ module.exports = {
             template: "./src/index.html",
             filename: "index.html"
         }),
+        new HtmlWebpackPlugin({
+            template: "./src/views/nav.html",
+            filename: "nav.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/pages/detail.html",
+            filename: "detail.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/pages/favorite.html",
+            filename: "favorite.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/pages/home.html",
+            filename: "home.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/pages/standings.html",
+            filename: "standings.html"
+        }),
         new ServiceWorkerWebpackPlugin({
             entry: path.join(__dirname, 'src/sw.js')
         })

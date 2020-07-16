@@ -1,5 +1,5 @@
 import baseUrl from "./base-url.js";
-import {status, json, getMatchToDay, getStandings} from "./api.js";
+import {getMatchToDay, getStandings, getBackStanding} from "./api.js";
 
 function item(page){
     if(page == "home"){
@@ -10,7 +10,9 @@ function item(page){
         }
         getMatchToDay(); 
     } else if(page == "standings"){
-        getStandings();
+        let tableElement = document.getElementById("table-content");
+        let itemElement = document.getElementById("item-content");
+        getStandings(tableElement, itemElement);
     }   
 }
 

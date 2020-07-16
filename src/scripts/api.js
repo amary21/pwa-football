@@ -73,7 +73,9 @@ function getMatchToDay(){
         .catch(error);
 }
 
-function getStandings(){
+function getStandings(tableElement, itemElement){
+  getBackStanding(tableElement, itemElement, true);
+
   fetch(baseUrl.main_url + "competitions/2021/standings", {
     headers:{
       'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'  
@@ -128,18 +130,25 @@ function getStandings(){
         }
     });
 
-    document.getElementById("body-standings").innerHTML = standingsHTML;
+    tableElement.innerHTML += standingsHTML;
+
     const rows = document.querySelectorAll("tr[data-href]");
     rows.forEach(row => {
       row.addEventListener("click", ()=>{
-        getTeamLogo(row.dataset.href);
+        getTeamLogo(row.dataset.href, tableElement, itemElement);
       });
     });
-  })
+  }).catch(error);
 }
 
-function getTeamLogo(idTeam){
-  return fetch(baseUrl.main_url + "teams/"+idTeam, {
+function getTeamLogo(idTeam, tableElement, itemElement){ 
+  getBackStanding(tableElement, itemElement, false);
+  itemElement.innerHTML = `
+    <a class="btn-floating blue lighten-1 no-shadows" id="btn-back">
+      <i class="material-icons">arrow_back</i>
+    </a>
+  `;
+  fetch(baseUrl.main_url + "teams/"+idTeam, {
     headers: {
         'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'
       }
@@ -147,9 +156,59 @@ function getTeamLogo(idTeam){
     .then(status)
     .then(json)
     .then(data =>{
-      console.log(data);
+      const itemContent = `
+        <div class="row">
+          <div class="col s12 m4 img-team"><img src="${data.crestUrl}"></div>
+          <div class="col s12 m8 item-detail">
+            <h1>${data.name}</h1>
+            <table id="table-content" class="striped">
+            <tbody>
+            <tr>
+              <td>Address</td>
+              <td>${data.address}</td>
+            </tr>
+            <tr>
+              <td>Website</td>
+              <td>${data.website}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>${data.email}</td>
+            </tr>
+            <tr>
+              <td>Founded</td>
+              <td>${data.founded}</td>
+            </tr>
+            <tr>
+              <td>Venue</td>
+              <td>${data.venue}</td>
+            </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      `;
+
+      itemElement.innerHTML += itemContent;
+      document.getElementById("btn-back").onclick = function fun(){
+        getBackStanding(tableElement, itemElement, true);
+      }
     })
     .catch(error);
+
+    document.getElementById("btn-back").onclick = function fun(){
+      getBackStanding(tableElement, itemElement, true);
+    }
 }
 
-export {status, json, getMatchToDay, getStandings}
+function getBackStanding(tableElement, itemElement, isBack){
+  if(isBack){
+    tableElement.style.display = "block";
+    itemElement.style.display = "none";
+  } else {
+    tableElement.style.display = "none";
+    itemElement.style.display = "block";
+  }
+}
+
+export {status, json, getMatchToDay, getStandings, getBackStanding}
