@@ -5,6 +5,7 @@ const CACHE_NAME = "football-pwa-v1"
 let urlsToCache = [
   ...assets, 
   './',
+  './manifest.json',
   './src/views/nav.html',
   './src/pages/detail.html',
   './src/pages/favorite.html',
@@ -34,22 +35,23 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("fetch", event => {
-    event.respondWith(
-      caches
-        .match(event.request, { cacheName: CACHE_NAME })
-        .then(response => {
-          if (response) {
-            console.log("ServiceWorker: Gunakan aset dari cache: ", response.url);
+    const base_url = "https://api.football-data.org/v2/";
+    if (event.request.url.indexOf(base_url) > -1) {
+      event.respondWith(
+        caches.open(CACHE_NAME).then(cache => {
+          return fetch(event.request).then(response =>{
+            cache.put(event.request.url, response.clone());
             return response;
-          }
-   
-          console.log(
-            "ServiceWorker: Memuat aset dari server: ",
-            event.request.url
-          );
-          return fetch(event.request);
+          })
         })
-    );
+      );
+    } else {
+      event.respondWith(
+        caches.match(event.request).then(response => {
+          return response || fetch(event.request);
+        })
+      )
+    }
 });
 
 self.addEventListener("activate", event => {
@@ -57,7 +59,7 @@ self.addEventListener("activate", event => {
       caches.keys().then(cacheNames => {
         return Promise.all(
           cacheNames.map(cacheName => {
-            if (cacheName != CACHE_NAME) {
+            if (cacheName != CACHE_NAME && cacheName.startsWith("football-pwa")) {
               console.log("ServiceWorker: cache " + cacheName + " dihapus");
               return caches.delete(cacheName);
             }

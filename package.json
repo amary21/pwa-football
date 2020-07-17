@@ -21,7 +21,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-pwa-manifest": "^4.2.0"
   },
   "dependencies": {
     "@lottiefiles/lottie-player": "^0.5.1",
