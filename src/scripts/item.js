@@ -1,19 +1,23 @@
-import baseUrl from "./base-url.js";
-import {getMatchToDay, getStandings, getBackStanding} from "./api.js";
+import {getMatchToDay, getStandings, getTeamDetail, getTeamFavorite} from "./api.js";
+import {animateFootball, animateLoading} from "./components/animation.js";
+import teamDetail from "./components/detail.js";
 
-function item(page){
-    if(page == "home"){
-        const lotFootball = document.getElementById("lottie-football");
-        if(lotFootball != null){
-            lotFootball.setAttribute("src", baseUrl.url_lottie_football);
-            lotFootball.setAttribute("speed", "2");
-        }
+let item = (page, idParam = null) => {
+    if(page == "detail" && idParam != null){
+        animateLoading();
+        getTeamDetail(idParam).then(data =>{
+            teamDetail(data);
+        });
+    } else if(page == "home"){
+        animateLoading();
+        animateFootball();
         getMatchToDay(); 
     } else if(page == "standings"){
-        let tableElement = document.getElementById("table-content");
-        let itemElement = document.getElementById("item-content");
-        getStandings(tableElement, itemElement);
-    }   
+        animateLoading();
+        getStandings();
+    } else if(page == "favorite"){
+        getTeamFavorite();
+    }
 }
 
 export default item;

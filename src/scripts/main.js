@@ -1,12 +1,9 @@
 import item from "./item.js";
 import service from "./service.js";
 
-function main() {
-
-    let page = window.location.hash.substr(1);
-    if (page == "") page = "home";
+function main() {     
     
-    function loadNav(){
+    function loadNav(page){
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(){
             if(this.readyState == 4){
@@ -32,14 +29,18 @@ function main() {
         xhttp.send()
     }
 
-    function loadPage(page){
+    function loadPage(page, idParam = null){
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(){
             if(this.readyState == 4){
                 let content = document.querySelector("#body-content");
                 if(this.status === 200){
-                    content.innerHTML = xhttp.responseText; 
-                    item(page);
+                    content.innerHTML = xhttp.responseText;
+                    if(idParam != null){
+                        item(page, idParam);
+                    } else {
+                        item(page);
+                    }
                 } else if (this.status === 404){
 
                     content.innerHTML = "<p>Halaman tidak ditemukan.</p>";
@@ -55,9 +56,19 @@ function main() {
     document.addEventListener("DOMContentLoaded", () => {       
         const elems = document.querySelectorAll(".sidenav");
         M.Sidenav.init(elems);
-        loadNav();
         
-        loadPage(page);
+        let page = window.location.hash.substr(1);      
+        let urlParams = new URLSearchParams(window.location.search);
+        let idParam = urlParams.get("id");  
+        
+        if (page == "" && idParam != null) {
+            page = "detail";
+        } else if (page == ""){
+            page = "home";
+        }
+
+        loadNav(page);
+        loadPage(page, idParam);
 
         service();
     });
