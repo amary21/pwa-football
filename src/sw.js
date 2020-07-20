@@ -1,111 +1,73 @@
-const { assets } = global.serviceWorkerOption
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
-const CACHE_NAME = "football-pwa-v1"
+if(workbox)
+  console.log('Workbox berhasil dimuat');
+else
+  console.log('Workbox gagal dimuat');
 
-let urlsToCache = [
-  ...assets, 
-  "./",
-  "./manifest.ba8d7f442df7c7a63831296a4a42396f.json",
-  "./src/index.js",
-  "./src/index.html",
-  "./src/views/nav.html",
-  "./src/pages/favorite.html",
-  "./src/pages/home.html",
-  "./src/pages/standings.html",
-  "./src/pages/detail.html",
-  "./src/styles/main.css",
-  "./src/styles/material-design.css",
-  "./src/scripts/main.js",
-  "./src/scripts/api.js",
-  "./src/scripts/service.js",
-  "./src/scripts/item.js",
-  "./src/scripts/url.js",
-  "./src/scripts/db.js",
-  "./src/scripts/components/matchday.js",
-  "./src/scripts/components/standings.js",
-  "./src/scripts/components/detail.js",
-  "./src/scripts/components/favorite.js",
-  "./src/scripts/components/animation.js",
-  "./assets/fonts/Roboto-Medium.ttf",
-  "./assets/fonts/MeriendaOne-Regular.ttf",
-  "./assets/fonts/MaterialIcons-Regular.woff2",
-  "./assets/fonts/MaterialIcons-Regular.woff",
-  "./assets/fonts/MaterialIcons-Regular.ttf",
-  "./assets/animations/19901-football.json",
-  "./assets/animations/lf20_MAezux.json",
-  "./assets/icons/icon-phone.png",
-  "./assets/icons/icon-72x72.png",
-  "./assets/icons/icon-96x96.png",
-  "./assets/icons/icon-128x128.png",
-  "./assets/icons/icon-144x144.png",
-  "./assets/icons/icon-152x152.png",
-  "./assets/icons/icon-192x192.png",
-  "./assets/icons/icon-384x384.png",
-  "./assets/icons/icon-512x512.png"
-]
+workbox.precaching.precacheAndRoute([
+  {url: '/manifest.json', revision: '1'},
+  {url: '/index.js', revision: '1'},
+  {url: '/index.html', revision: '1'},
+  {url: '/views/nav.html', revision: '1'},
+  {url: '/assets/fonts/Roboto-Medium.ttf', revision: '1'},
+  {url: '/assets/fonts/MeriendaOne-Regular.ttf', revision: '1'},
+  {url: '/assets/fonts/MaterialIcons-Regular.woff2', revision: '1'},
+  {url: '/assets/fonts/MaterialIcons-Regular.woff', revision: '1'},
+  {url: '/assets/fonts/MaterialIcons-Regular.ttf', revision: '1'},
+  {url: '/assets/animations/19901-football.json', revision: '1'},
+  {url: '/assets/animations/lf20_MAezux.json', revision: '1'},
+  {url: '/assets/images/icon-phone.png', revision: '1'},
+  {url: '/assets/images/icon-72x72.png', revision: '1'},
+  {url: '/assets/images/icon-96x96.png', revision: '1'},
+  {url: '/assets/images/icon-128x128.png', revision: '1'},
+  {url: '/assets/images/icon-144x144.png', revision: '1'},
+  {url: '/assets/images/icon-152x152.png', revision: '1'},
+  {url: '/assets/images/icon-192x192.png', revision: '1'},
+  {url: '/assets/images/icon-384x384.png', revision: '1'},
+  {url: '/assets/images/icon-512x512.png', revision: '1'},
+]);
+  
+workbox.routing.registerRoute(
+  /\/pages\//g,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'pages-cache',
+  })
+);
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-      caches.open(CACHE_NAME).then(function(cache){
-          return cache.addAll(urlsToCache)
-      })
-  );
-});
+workbox.routing.registerRoute(
+  /\.(?:css|js|png|jpg|svg|gif)$/,
+  workbox.strategies.cacheFirst({
+    cacheName: 'assets-cache',
+  }),
+);
 
-self.addEventListener("fetch", event => {
-  let base_url = "https://api.football-data.org/v2/";
-  if (event.request.url.indexOf(base_url) > -1) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(cache => {
-        return fetch(event.request).then(response =>{
-          cache.put(event.request.url, response.clone());
-          return response;
-        })
-      })
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request, { ignoreSearch: true }).then(response => {
-        return response || fetch(event.request);
-      })
-    )
-  }
-});
-
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName != CACHE_NAME && cacheName.startsWith("football-pwa")) {
-            console.log("ServiceWorker: cache " + cacheName + " dihapus");
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-});
+workbox.routing.registerRoute(
+  /^https:\/\/api\.football-data\.org/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'api-cache',
+  })
+);
 
 self.addEventListener("push", event =>{
-let body;
-if(event.data){
-  body = event.data.text();
-} else {
-  body = 'Push message no payload';
-}
-
-const options = {
-  body: body,
-  icon: "/assets/icons/icon-72x72.png",
-  vibrate: [100, 50, 100],
-  data: {
-    dateOfArrival: Date.now(),
-    primaryKey: 1
+  let body;
+  if(event.data){
+    body = event.data.text();
+  } else {
+    body = 'Push message no payload';
   }
-};
 
-event.waitUntil(
-  self.registration.showNotification('Push Notfication', options)
-);
+  const options = {
+    body: body,
+    icon: "/assets/images/icon-72x72.png",
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('Push Notfication', options)
+  );
 });

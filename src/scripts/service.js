@@ -11,7 +11,7 @@ const service = () =>{
     function registerServiceWorker(){
         window.addEventListener("load", function() {
             navigator.serviceWorker
-                .register('./service-worker.js')
+                .register('./sw.js')
                 .then(function() {
                     console.log("Pendaftaran ServiceWorker berhasil");
                 })
