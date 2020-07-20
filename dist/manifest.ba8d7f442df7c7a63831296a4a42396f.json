@@ -1,0 +1,51 @@
+{
+  "icons": [
+    {
+      "src": "icon_512x512.b89636ac658b1b87419fb1e83bbe9478.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_384x384.06c3df60ecf939c358a48c7268e4669d.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_192x192.7c0e63ef4a35677013a0a5498572ad60.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_152x152.320258dab781f6d3b06cefbef50b91fe.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_144x144.26e5ccc69fb2aa9fc2d8f9aa472d300a.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_128x128.5566395920367dc79b4b4ee3b79bc122.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_96x96.0b95fa57f5e32e3df7df52d7b531d17b.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_72x72.e3fb02011085d560ff0c5b0733351995.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "name": "United Football",
+  "short_name": "UFootBall",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "theme_color": "#42a5f5",
+  "background_color": "#42a5f5"
+}

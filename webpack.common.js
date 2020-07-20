@@ -2,6 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin");
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
@@ -69,9 +71,24 @@ module.exports = {
             template: "./src/pages/standings.html",
             filename: "standings.html"
         }),
-        new ServiceWorkerWebpackPlugin({
-            entry: path.join(__dirname, 'src/sw.js')
-        }),
+        new SWPrecacheWebpackPlugin({
+            cacheId: 'pwa',
+            filename: 'service-worker.js',
+            staticFileGlobs: [
+              'src/**/*.{css,js,html}',
+              'assets/**/*.{ttf,eot,woff,woff2,json}',
+            ],
+            handleFetch: true,
+            mergeStaticsConfig: true, // if you don't set this to true, you won't see any webpack-emitted assets in your serviceworker config
+            staticFileGlobsIgnorePatterns: [/\.map$/], // use this to ignore sourcemap files
+            runtimeCaching: [
+                {
+                    urlPattern:/^https:\/\/api\.football-data\.org/,
+                    handler: 'cacheFirst'
+                }
+            ],
+            importScripts: ['/src/scripts/push-listerner.js']
+          }),
         new WebpackPwaManifest({
             name: "United Football",
             short_name: "UFootBall",
@@ -112,6 +129,11 @@ module.exports = {
                     sizes: "512x512"
                 }
             ]
+        }),
+        new FaviconsWebpackPlugin({
+            logo: './assets/icons/icon-phone.png',
+            cache:true,
+            inject: true
         })
     ]
 };
