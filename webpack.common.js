@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
@@ -81,43 +80,63 @@ module.exports = {
             theme_color: "#42a5f5",
             background_color: "#42a5f5",
             display: "standalone",
+            fingerprints: false,
+            inject: true,
+            ios: true,
+            gcm_sender_id: "170137032190",
             icons: [
                 {
                     src: path.resolve('./assets/icons/icon-72x72.png'),
-                    sizes: "72x72"
+                    sizes: "72x72",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-96x96.png'),
-                    sizes: "96x96"
+                    sizes: "96x96",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-128x128.png'),
-                    sizes: "128x128"
+                    sizes: "128x128",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-144x144.png'),
-                    sizes: "144x144"
+                    sizes: "144x144",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-152x152.png'),
-                    sizes: "152x152"
+                    sizes: "152x152",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-192x192.png'),
-                    sizes: "192x192"
+                    sizes: "192x192",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-384x384.png'),
-                    sizes: "384x384"
+                    sizes: "384x384",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-512x512.png'),
-                    sizes: "512x512"
+                    sizes: "512x512",
+                    destination: path.join('assets/icons'),
+                    ios: true
                 }
             ]
         }),
         new FaviconsWebpackPlugin({
-            logo: './assets/icons/icon-192x192.png',
+            logo: './assets/icons/icon-512x512.png',
             cache:true,
             inject: true
         }),
@@ -125,9 +144,13 @@ module.exports = {
             patterns: [
                 'push-listerner.js',
                 { 
-                  from: 'assets', 
-                  to: 'assets/' 
+                  from: 'assets/fonts', 
+                  to: 'assets/fonts/' 
                 },
+                { 
+                    from: 'assets/animations', 
+                    to: 'assets/animations/' 
+                  },
                 { 
                     from: 'src/pages', 
                     to: 'pages/' 
@@ -138,6 +161,5 @@ module.exports = {
                 },
             ],
           }),
-        new CleanWebpackPlugin(),
     ]
 };

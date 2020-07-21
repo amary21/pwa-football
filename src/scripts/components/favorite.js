@@ -1,12 +1,12 @@
 import { deleteFavTeam } from "../db.js";
 import { getTeamFavorite } from "../api.js";
-import { animateLoading } from "./animation.js";
+import { animateNodata } from "./animation.js";
 import { loadPage } from "../load-page.js";
 
 const favorite = (data) => {
     let bodyMatches = document.getElementById("body-favorite");
-    bodyMatches.innerHTML = `<lottie-player id="lottie-loading" loop autoplay></lottie-player>`;
-    animateLoading();
+    bodyMatches.innerHTML = `<lottie-player id="lottie-nodata" loop autoplay></lottie-player>`;
+    animateNodata();
 
     let favItem = "";
     data.forEach(item => {

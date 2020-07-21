@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "@lottiefiles/lottie-player": "^0.5.1",
-    "clean-webpack-plugin": "^3.0.0",
     "idb": "^2.1.3",
     "material-design-icons": "^3.0.1",
     "materialize-css": "^1.0.0-rc.2",
