@@ -1,8 +1,10 @@
 const path = require("path");
+const workboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const workboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
@@ -50,26 +52,6 @@ module.exports = {
             template: "./src/index.html",
             filename: "index.html"
         }),
-        new HtmlWebpackPlugin({
-            template: "./src/views/nav.html",
-            filename: "nav.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/detail.html",
-            filename: "detail.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/favorite.html",
-            filename: "favorite.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/home.html",
-            filename: "home.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/standings.html",
-            filename: "standings.html"
-        }),
         new workboxPlugin.GenerateSW({
             cacheId: 'ufootball',
             swDest: 'sw.js',
@@ -91,7 +73,7 @@ module.exports = {
                     }
                 }
             ],
-            importScripts: ['/src/scripts/push-listerner.js']
+            importScripts: ['push-listerner.js']
         }),
         new WebpackPwaManifest({
             name: "United Football",
@@ -138,6 +120,24 @@ module.exports = {
             logo: './assets/icons/icon-192x192.png',
             cache:true,
             inject: true
-        })
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                'push-listerner.js',
+                { 
+                  from: 'assets', 
+                  to: 'assets/' 
+                },
+                { 
+                    from: 'src/pages', 
+                    to: 'pages/' 
+                },
+                { 
+                    from: 'src/views', 
+                    to: 'views/' 
+                },
+            ],
+          }),
+        new CleanWebpackPlugin(),
     ]
 };

@@ -8,7 +8,7 @@ self.addEventListener("push", event =>{
   
   const options = {
     body: body,
-    icon: "/assets/icons/icon-72x72.png",
+    icon: "assets/icons/icon-72x72.png",
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -19,5 +19,5 @@ self.addEventListener("push", event =>{
   event.waitUntil(
     self.registration.showNotification('Push Notfication', options)
   );
-  });
+});
   

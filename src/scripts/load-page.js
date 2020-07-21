@@ -1,6 +1,6 @@
 import item from "./item.js";
 
-function loadNav(page){
+const loadNav = page =>{
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
         if(this.readyState == 4){
@@ -22,11 +22,11 @@ function loadNav(page){
             });
         }
     };  
-    xhttp.open("GET", "/src/views/nav.html", true)
+    xhttp.open("GET", "../views/nav.html", true)
     xhttp.send()
 }
 
-function loadPage(page, idParam = null){
+const loadPage = (page, idParam = null) =>{
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
         if(this.readyState == 4){
@@ -46,7 +46,7 @@ function loadPage(page, idParam = null){
             }
         }
     };
-    xhttp.open("GET", "/src/pages/" + page + ".html", true)
+    xhttp.open("GET", "../pages/" + page + ".html", true)
     xhttp.send();
 }
 
