@@ -57,7 +57,7 @@ module.exports = {
             cacheId: 'pwa',
             filename: 'service-worker.js',
             staticFileGlobs: [
-              'assets/**/*.{ttf,eot,woff,woff2,json}',
+              'assets/**/*.{ttf,eot,woff,woff2,json}'
             ],
             handleFetch: true,
             mergeStaticsConfig: true,
@@ -76,38 +76,56 @@ module.exports = {
             theme_color: "#42a5f5",
             background_color: "#42a5f5",
             display: "standalone",
+            fingerprints: false,
+            inject: true,
             icons: [
                 {
                     src: path.resolve('./assets/icons/icon-72x72.png'),
-                    sizes: "72x72"
+                    sizes: "72x72",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-96x96.png'),
-                    sizes: "96x96"
+                    sizes: "96x96",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-128x128.png'),
-                    sizes: "128x128"
+                    sizes: "128x128",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-144x144.png'),
-                    sizes: "144x144"
+                    sizes: "144x144",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-152x152.png'),
-                    sizes: "152x152"
+                    sizes: "152x152",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-192x192.png'),
-                    sizes: "192x192"
+                    sizes: "192x192",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-384x384.png'),
-                    sizes: "384x384"
+                    sizes: "384x384",
+                    destination: path,
+                    icon: true
                 },
                 {
                     src: path.resolve('./assets/icons/icon-512x512.png'),
-                    sizes: "512x512"
+                    sizes: "512x512",
+                    destination: path,
+                    icon: true
                 }
             ]
         }),
@@ -133,6 +151,5 @@ module.exports = {
                 },
             ],
           }),
-        new CleanWebpackPlugin(),
     ]
 };
