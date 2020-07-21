@@ -22,7 +22,7 @@ function loadNav(page){
             });
         }
     };  
-    xhttp.open("GET", "/src/views/nav.html", true)
+    xhttp.open("GET", "../views/nav.html", true)
     xhttp.send()
 }
 
@@ -46,7 +46,7 @@ function loadPage(page, idParam = null){
             }
         }
     };
-    xhttp.open("GET", "/src/pages/" + page + ".html", true)
+    xhttp.open("GET", "../pages/" + page + ".html", true)
     xhttp.send();
 }
 

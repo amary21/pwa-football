@@ -1,9 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin");
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 
 module.exports = {
     entry: "./src/index.js",
@@ -51,43 +53,22 @@ module.exports = {
             template: "./src/index.html",
             filename: "index.html"
         }),
-        new HtmlWebpackPlugin({
-            template: "./src/views/nav.html",
-            filename: "nav.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/detail.html",
-            filename: "detail.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/favorite.html",
-            filename: "favorite.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/home.html",
-            filename: "home.html"
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/pages/standings.html",
-            filename: "standings.html"
-        }),
         new SWPrecacheWebpackPlugin({
             cacheId: 'pwa',
             filename: 'service-worker.js',
             staticFileGlobs: [
-              'src/**/*.{css,js,html}',
               'assets/**/*.{ttf,eot,woff,woff2,json}',
             ],
             handleFetch: true,
-            mergeStaticsConfig: true, // if you don't set this to true, you won't see any webpack-emitted assets in your serviceworker config
-            staticFileGlobsIgnorePatterns: [/\.map$/], // use this to ignore sourcemap files
+            mergeStaticsConfig: true,
+            staticFileGlobsIgnorePatterns: [/\.map$/],
             runtimeCaching: [
                 {
-                    urlPattern:/^https:\/\/api\.football-data\.org/,
+                    urlPattern: new RegExp('https://api.football-data.org/v2/'),
                     handler: 'cacheFirst'
                 }
             ],
-            importScripts: ['/src/scripts/push-listerner.js']
+            importScripts: ['push-listerner.js']
           }),
         new WebpackPwaManifest({
             name: "United Football",
@@ -134,6 +115,24 @@ module.exports = {
             logo: './assets/icons/icon-phone.png',
             cache:true,
             inject: true
-        })
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                'push-listerner.js',
+                { 
+                  from: 'assets', 
+                  to: 'assets/' 
+                },
+                { 
+                    from: 'src/pages', 
+                    to: 'pages/' 
+                },
+                { 
+                    from: 'src/views', 
+                    to: 'views/' 
+                },
+            ],
+          }),
+        new CleanWebpackPlugin(),
     ]
 };

@@ -51,7 +51,7 @@ const getMatchToDay = () => {
     
   fetch(`${url.main_url}competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`, {
     headers: {
-      'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'
+      'X-Auth-Token': url.token
     }
   })
   .then(status)
@@ -75,7 +75,7 @@ const getStandings = () => {
 
   fetch(`${url.main_url}competitions/2021/standings`, {
     headers:{
-      'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'  
+      'X-Auth-Token': url.token  
     }
   })
   .then(status)
@@ -99,7 +99,7 @@ const getTeamDetail = (idTeam) =>{
   
     fetch(`${url.main_url}teams/${idTeam}`, {
       headers: {
-          'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'
+          'X-Auth-Token': url.token
       }
     })
     .then(status)
