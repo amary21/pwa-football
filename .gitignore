@@ -1,0 +1,7 @@
+node_modules
+dist
+.firebase
+.firebaserc
+firebase.json
+hosting.txt
+package-lock.json
