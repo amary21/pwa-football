@@ -4,3 +4,4 @@ dist
 .firebaserc
 firebase.json
 hosting.txt
+.gitignore

@@ -46,17 +46,6 @@ const error = (error) => {
 }
 
 const getMatchToDay = () => {
-  if('caches' in window){
-    caches.match(`${url.main_url}competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`)
-      .then(response => {
-        if(response){
-          response.json().then(data => {
-            matchDay(data);
-          })
-        }
-      })
-  }
-    
   fetchApi(`competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`)
     .then(status)
     .then(json)
@@ -67,16 +56,6 @@ const getMatchToDay = () => {
 }
 
 const getStandings = () => {
-  if('caches' in window){
-    caches.match(`${url.main_url}competitions/2021/standings`).then(response => {
-      if(response){
-        response.json().then(data =>{
-          standings(data);
-        })
-      }
-    })
-  }
-
   fetchApi(`competitions/2021/standings`)
     .then(status)
     .then(json)
@@ -87,23 +66,13 @@ const getStandings = () => {
 
 const getTeamDetail = (idTeam) =>{
   return new Promise(resolve=>{
-    if('caches' in window){
-      caches.match(`${url.main_url}teams/${idTeam}`).then(response => {
-        if(response){
-          response.json().then(data =>{
-            resolve(data);
-          })
-        }
+    fetchApi(`teams/${idTeam}`)
+      .then(status)
+      .then(json)
+      .then(data =>{
+        resolve(data);
       })
-    }
-  
-  fetchApi(`teams/${idTeam}`)
-    .then(status)
-    .then(json)
-    .then(data =>{
-      resolve(data);
-    })
-    .catch(error);
+      .catch(error);
   }); 
 }
 
