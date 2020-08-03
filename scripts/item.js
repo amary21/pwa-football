@@ -3,7 +3,7 @@ import {animateFootball, animateLoading} from "./components/animation.js";
 import teamDetail from "./components/detail.js";
 
 let item = (page, idParam = null) => {
-    if(page == "detail" && idParam != null){
+    if(page === "detail" && idParam !== null){
         animateLoading();
         getTeamDetail(idParam).then(data =>{
             teamDetail(data);

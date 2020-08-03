@@ -10,12 +10,14 @@ const saveFavTeam = (team) =>{
             .then(db => {
                 const tx = db.transaction("teams", "readwrite");
                 const store = tx.objectStore("teams");
-                store.add(team);
+                store.put(team);
                 return tx;
             })
             .then(tx => {
                 if (tx.complete) {
                     resolve(true);
+                    const toastHTML = '<i class="material-icons">favorite</i><span>The team has been added</span>';
+                    M.toast({html: toastHTML, classes: 'blue lighten-1 rounded'});
                 } else {
                     reject(new Error(transaction.onerror))
                 }
@@ -50,6 +52,8 @@ const deleteFavTeam = (id) => {
         }).then(tx => {
             if (tx.complete) {
                 resolve(true)
+                const toastHTML = '<i class="material-icons">delete</i><span>The team has been deleted</span>';
+                M.toast({html: toastHTML, classes: 'blue lighten-1 rounded'});
             } else {
                 reject(new Error(transaction.onerror))
             }
