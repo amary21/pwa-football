@@ -1,5 +1,3 @@
-import {loadPage} from "../load-page.js";
-
 const standings = (data) => {
     let colorRanking = "";
     let standingsHTML = "";
@@ -57,7 +55,7 @@ const standings = (data) => {
     document.getElementById("table-content").innerHTML = standingsHTML;
     document.querySelectorAll("tr[data-href]").forEach(row => {
         row.addEventListener("click", ()=>{
-            loadPage('detail', row.dataset.href);
+            window.location = "./?id="+row.dataset.href;
         });
     });
 }

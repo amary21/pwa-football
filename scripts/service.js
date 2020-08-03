@@ -11,7 +11,7 @@ const service = () =>{
     function registerServiceWorker(){
         window.addEventListener("load", function() {
             navigator.serviceWorker
-                .register('./sw.js')
+                .register("/sw.js")
                 .then(function() {
                     console.log("Pendaftaran ServiceWorker berhasil");
                 })
@@ -41,24 +41,22 @@ const service = () =>{
     }
 
     function getPushManager(){
-        navigator.serviceWorker.ready.then(()=>{
-            if("PushManager" in window){
-                navigator.serviceWorker.getRegistration().then(reg =>{
-                    reg.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(url.publickey)
-                    }).then(subscribe =>{
-                        console.log('Berhasil melakukan subscribe dengan endpoint: ', subscribe.endpoint);
-                        console.log('Berhasil melakukan subscribe dengan p256dh key: ', btoa(String.fromCharCode.apply(
-                            null, new Uint8Array(subscribe.getKey('p256dh')))));
-                        console.log('Berhasil melakukan subscribe dengan auth key: ', btoa(String.fromCharCode.apply(
-                            null, new Uint8Array(subscribe.getKey('auth')))));
-                    }).catch(e =>{
-                        console.error('Tidak dapat melakukan subscribe ', e.message);
-                    })
-                });
-            }
-        })
+        if("PushManager" in window){
+            navigator.serviceWorker.getRegistration().then(reg =>{
+                reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(url.publickey)
+                }).then(subscribe =>{
+                    console.log('Berhasil melakukan subscribe dengan endpoint: ', subscribe.endpoint);
+                    console.log('Berhasil melakukan subscribe dengan p256dh key: ', btoa(String.fromCharCode.apply(
+                        null, new Uint8Array(subscribe.getKey('p256dh')))));
+                    console.log('Berhasil melakukan subscribe dengan auth key: ', btoa(String.fromCharCode.apply(
+                        null, new Uint8Array(subscribe.getKey('auth')))));
+                }).catch(e =>{
+                    console.error('Tidak dapat melakukan subscribe ', e.message);
+                })
+            });
+        }
     }
 
     function urlBase64ToUint8Array(base64String){

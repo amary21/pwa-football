@@ -16,14 +16,4 @@ const animateLoading = ()=>{
     }
 }
 
-const animateNodata = ()=>{
-    const lotLoading = document.getElementById("lottie-nodata");
-    if(lotLoading != null){
-        lotLoading.setAttribute("src", url.url_lottie_nodata);
-        lotLoading.setAttribute("speed", "2");
-    }
-}
-
-
-
-export {animateFootball, animateLoading, animateNodata}
+export {animateFootball, animateLoading}
