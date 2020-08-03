@@ -1,3 +1,5 @@
+import {loadPage} from "../load-page.js";
+
 const standings = (data) => {
     let colorRanking = "";
     let standingsHTML = "";
@@ -20,8 +22,6 @@ const standings = (data) => {
                     <tbody>`;
   
                 standing.table.forEach((item, index) => {
-                    item.team.crestUrl = item.team.crestUrl.replace(/^http:\/\//i, 'https://');
-                    
                     if(index < 4){
                         colorRanking = "blue accent-2";
                     } else if (index == 4){
@@ -57,7 +57,7 @@ const standings = (data) => {
     document.getElementById("table-content").innerHTML = standingsHTML;
     document.querySelectorAll("tr[data-href]").forEach(row => {
         row.addEventListener("click", ()=>{
-            window.location = "./?id="+row.dataset.href;
+            loadPage('detail', row.dataset.href);
         });
     });
 }

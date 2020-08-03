@@ -20,6 +20,14 @@ const dateMatches = (now) => {
   return today = yyyy + '-' + mm + '-' + dd;
 }
 
+const fetchApi = (url_param) => {    
+  return fetch(url.main_url + url_param, {
+    headers: {
+      'X-Auth-Token': url.token
+    }
+  });
+};
+
 const status = (response) => {
   if (response.status !== 200) {
     console.log("Error : " + response.status);
@@ -38,76 +46,33 @@ const error = (error) => {
 }
 
 const getMatchToDay = () => {
-  if('caches' in window){
-    caches.match(`${url.main_url}competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`)
-      .then(response => {
-        if(response){
-          response.json().then(data => {
-            matchDay(data);
-          })
-        }
-      })
-  }
-    
-  fetch(`${url.main_url}competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`, {
-    headers: {
-      'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'
-    }
-  })
-  .then(status)
-  .then(json)
-  .then(data =>{
-    matchDay(data);
-  })
-  .catch(error);
+  fetchApi(`competitions/2021/matches?dateFrom=${dateMatches(false)}&dateTo=${dateMatches(true)}`)
+    .then(status)
+    .then(json)
+    .then(data =>{
+      matchDay(data);
+    })
+    .catch(error);
 }
 
 const getStandings = () => {
-  if('caches' in window){
-    caches.match(`${url.main_url}competitions/2021/standings`).then(response => {
-      if(response){
-        response.json().then(data =>{
-          standings(data);
-        })
-      }
-    })
-  }
-
-  fetch(`${url.main_url}competitions/2021/standings`, {
-    headers:{
-      'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'  
-    }
-  })
-  .then(status)
-  .then(json)
-  .then(data =>{
-    standings(data);
-  }).catch(error);
+  fetchApi(`competitions/2021/standings`)
+    .then(status)
+    .then(json)
+    .then(data =>{
+      standings(data);
+    }).catch(error);
 }
 
 const getTeamDetail = (idTeam) =>{
   return new Promise(resolve=>{
-    if('caches' in window){
-      caches.match(`${url.main_url}teams/${idTeam}`).then(response => {
-        if(response){
-          response.json().then(data =>{
-            resolve(data);
-          })
-        }
+    fetchApi(`teams/${idTeam}`)
+      .then(status)
+      .then(json)
+      .then(data =>{
+        resolve(data);
       })
-    }
-  
-    fetch(`${url.main_url}teams/${idTeam}`, {
-      headers: {
-          'X-Auth-Token': 'fd8e9844d0fc4cdda523cbada4d46ff1'
-      }
-    })
-    .then(status)
-    .then(json)
-    .then(data =>{
-      resolve(data);
-    })
-    .catch(error);
+      .catch(error);
   }); 
 }
 
