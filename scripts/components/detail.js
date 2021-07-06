@@ -1,12 +1,8 @@
 import {saveFavTeam, getFavTeam} from "../db.js";
-import {loadPage} from "../load-page.js";
 
 const teamDetail = (data) => {
     let favoriteState = document.getElementById("favorite-state");
-    favoriteState.innerHTML = 
-        `<a class="btn-floating blue lighten-1 no-shadows" id="btn-fav">
-            <i class="material-icons">favorite_border</i>
-        </a>`;
+    favoriteState.innerHTML = "";
             
     const itemContent = `
         <div class="row">
@@ -43,17 +39,30 @@ const teamDetail = (data) => {
   
     document.getElementById("item-content").innerHTML = itemContent;
     document.getElementById("btn-back").onclick = () =>{
-        loadPage('standings');
+        window.location.href = "./";
     }
         
     getFavTeam().then(teams =>{
-        teams.forEach(team => {
-            if(team.id == data.id){
-                favoriteState.innerHTML =`<a class="btn-floating blue lighten-1 no-shadows disabled" id="btn-faved">
-                    <i class="material-icons">favorite</i>
+        if(teams.length == 0){
+            favoriteState.innerHTML =`
+                <a class="btn-floating blue lighten-1 no-shadows" id="btn-fav">
+                    <i class="material-icons">favorite_border</i>
                 </a>`;
-            }
-        });
+        } else {
+            teams.forEach(team => {
+                if(team.id == data.id){
+                    favoriteState.innerHTML = `
+                        <a class="btn-floating blue lighten-1 no-shadows disabled" id="btn-faved">
+                            <i class="material-icons">favorite</i>
+                        </a>`;
+                }else {
+                    favoriteState.innerHTML =`
+                        <a class="btn-floating blue lighten-1 no-shadows" id="btn-fav">
+                            <i class="material-icons">favorite_border</i>
+                        </a>`;
+                }
+            });
+        }
 
         const btnFav = document.getElementById("btn-fav");
         if(btnFav != null){

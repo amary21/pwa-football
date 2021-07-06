@@ -11,7 +11,7 @@ const service = () =>{
     function registerServiceWorker(){
         window.addEventListener("load", function() {
             navigator.serviceWorker
-                .register('./sw.js')
+                .register("/sw.js")
                 .then(function() {
                     console.log("Pendaftaran ServiceWorker berhasil");
                 })
@@ -60,6 +60,7 @@ const service = () =>{
             }
         })
     }
+
 
     function urlBase64ToUint8Array(base64String){
         const padding = '='.repeat((4 - base64String.length % 4) % 4);

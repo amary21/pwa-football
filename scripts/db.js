@@ -1,5 +1,3 @@
-import idb from 'idb';
-
 const dbPromised = idb.open("teams-fav", 1, upgradeDb =>{
     if(!upgradeDb.objectStoreNames.contains("teams")){
         upgradeDb.createObjectStore("teams", {keyPath: "id"});
@@ -53,7 +51,7 @@ const deleteFavTeam = (id) => {
             return tx;
         }).then(tx => {
             if (tx.complete) {
-                resolve(true);
+                resolve(true)
                 const toastHTML = '<i class="material-icons">delete</i><span>The team has been deleted</span>';
                 M.toast({html: toastHTML, classes: 'blue lighten-1 rounded'});
             } else {
